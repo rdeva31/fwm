@@ -11,69 +11,76 @@
 #include "minmax.h"
 #include "map.h"
 
-int fibbonacci(int a, int b) {
+int fibbonacci(int a, int b)
+{
 	return a + b;
 }
 
-int combinatorial(int a, int b) {
+int combinatorial(int a, int b)
+{
 	return a * b;
 }
 
-int minus(int a, int b) {
+int minus(int a, int b)
+{
 	return a - b;
 }
 
-int last(int a, int b) {
+int last(int a, int b)
+{
 	return b;
 }
 
-int first(int a, int b) {
+int first(int a, int b)
+{
 	return a;
 }
 
-bool test_fold_right()
+bool test_fold_right(void)
 {
-	int array[] = {4, 3, 2, 1};
+	const int array[] = {4, 3, 2, 1};
 	int size = sizeof(array)/sizeof(*array);
 	int reference = 0;
 
-	//Simple sum
+	/* Simple sum */
 	for (int c = 0; c < size; ++c)
 		reference += array[c];
 
 	assert(reference == fold_right(array, size));
 	assert(reference == fold_right(array, size, fibbonacci));
 
-	//Minus
+	/* Minus */
 	reference = array[0];
 	for (int c = 1; c < size; ++c)
 		reference -= array[c];
 	assert(reference == fold_right(array, size, minus));
 
-	//Combinatorial!
+	/* Combinatorial! */
 	reference = 1;
 	for (int c = 0; c < size; ++c)
 		reference *= array[c];
 
 	assert(reference == fold_right(array, size, combinatorial));
 
-	//Last
+	/* Last */
 	reference = array[size - 1];
 	assert(reference == fold_right(array, size, last));
 
-	//First
+	/* First */
 	reference = array[0];
 	assert(reference == fold_right(array, size, first));
 
 	return true;
 }
 
-bool test_each() {
-	char *array[] = {"a", "bb", "ccc", "dddd"};
+bool test_each(void)
+{
+	const char *array[] = {"a", "bb", "ccc", "dddd"};
 	int size = sizeof(array)/sizeof(*array);
 
-	//Max str size
+	/* Max str size */
 	int guess = 0, max = strlen(array[size - 1]);
+
 	for_each(array, size, curr) {
 		int len = strlen(curr);
 
@@ -87,14 +94,20 @@ bool test_each() {
 	return true;
 }
 
-struct my_int {int i;};
-int my_int_comparator(struct my_int a, struct my_int b) {
+struct my_int {
+	int i;
+};
+
+int my_int_comparator(struct my_int a, struct my_int b)
+{
 	return a.i - b.i;
 }
 
-bool test_minmax()
+bool test_minmax(void)
 {
-	struct my_int array[] = {{4}, {3}, {2}, {1}};
+	const struct my_int array[] = {
+		{4}, {3}, {2}, {1}
+	};
 	int size = sizeof(array)/sizeof(*array);
 
 	assert(4 == minmax(array, size, my_int_comparator).max.i);
@@ -110,6 +123,7 @@ double half(int a)
 char *stringify(double a)
 {
 	char *temp = malloc(32 /*32 digits ought to be enough for anyone*/);
+
 	sprintf(temp, "%.1f", a);
 	return temp;
 }
@@ -124,25 +138,30 @@ struct timeval timevalify(double a)
 	return tv;
 }
 
-bool test_map()
+bool test_map(void)
 {
-	int array[] = {4, 3, 2, 1};
+	const int array[] = {4, 3, 2, 1};
 	int size = sizeof(array)/sizeof(*array);
 
-	//Half
+	/* Half */
 	double float_reference[] = {2.0, 1.5, 1.0, 0.5};
 	double *halved = map(array, size, half);
+
 	assert(memcmp(float_reference, halved, sizeof(float_reference)) == 0);
 	free(halved);
 
-	//Timeval
-	struct timeval tv_reference[] = {{2, 0}, {1, 5}, {1, 0}, {0, 5}};
+	/* Timeval */
+	struct timeval tv_reference[] = {
+		{2, 0}, {1, 5}, {1, 0}, {0, 5}
+	};
 	struct timeval *timevaled = map(array, size, timevalify);
+
 	assert(memcmp(tv_reference, timevaled, sizeof(tv_reference)) == 0);
 
-	//Stringify
+	/* Stringify */
 	char *str_reference[] = {"4.0", "3.0", "2.0", "1.0"};
 	char **stringified = map(array, size, stringify);
+
 	for (int c = 0; c < size; ++c) {
 		assert(strcmp(stringified[c], str_reference[c]) == 0);
 		free(stringified[c]);
@@ -152,7 +171,7 @@ bool test_map()
 	return true;
 }
 
-int main()
+int main(void)
 {
 #define test(x) do { \
 	printf("Running " #x "..."); \
