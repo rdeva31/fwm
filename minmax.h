@@ -16,7 +16,7 @@
 			__min = __array_copy[__curr];				\
 										\
 		if ((__comparator)(__array_copy[__curr], __max) > 0)		\
-			__max = __array_copy[__curr]; \
+			__max = __array_copy[__curr];				\
 	}									\
 										\
 	__minmax.min = __min;							\
