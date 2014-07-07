@@ -90,6 +90,17 @@ bool test_each(void)
 
 	assert(guess == max);
 
+	/* Same thing, but use pointers instead */
+	guess = 0, max = strlen(array[size - 1]);
+
+	for_each_as_ptr(array, size, curr) {
+		int len = strlen(*curr);
+
+		if (guess < len)
+			guess = len;
+	}
+
+	assert(guess == max);
 
 	return true;
 }
