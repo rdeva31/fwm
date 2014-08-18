@@ -121,8 +121,8 @@ bool test_minmax(void)
 	};
 	int size = sizeof(array)/sizeof(*array);
 
-	assert(4 == minmax(array, size, my_int_comparator).max.i);
-	assert(1 == minmax(array, size, my_int_comparator).min.i);
+	assert(4 == max(array, size, my_int_comparator).i);
+	assert(1 == min(array, size, my_int_comparator).i);
 	return true;
 }
 
