@@ -13,6 +13,10 @@
 #define FWM_MALLOC malloc
 #endif
 
+#ifndef FWM_FREE
+#define FWM_FREE free
+#endif
+
 /* Override FWM_MALLOC_FMT if your malloc implementation of choice requires
  * arguments besides the size.  e.g. your customer malloc's prototype is
  *     void * my_malloc(size_t size, char *debug_string_to_track_allocations)
@@ -29,4 +33,7 @@
 #define FWM_MALLOC_FMT(size) (size)
 #endif
 
+#ifndef FWM_FREE_FMT
+#define FWM_FREE_FMT(ptr) (ptr)
+#endif
 #endif

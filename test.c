@@ -10,6 +10,7 @@
 #include "for_each.h"
 #include "minmax.h"
 #include "map.h"
+#include "filter.h"
 
 int fibbonacci(int a, int b)
 {
@@ -182,6 +183,31 @@ bool test_map(void)
 	return true;
 }
 
+int even(int x)
+{
+	return !(x & 1);
+}
+
+bool test_filter(void)
+{
+	int array[] = {4, 3, 2, 1};
+	int size = sizeof(array)/sizeof(*array);
+
+	/* Evens */
+	int even_reference[] = {4, 2};
+	int *even_numbers;
+	int even_number_size = 0;
+
+	even_numbers = filter(array, size, &even_numbers, &even_number_size,
+			even);
+	assert(sizeof(even_reference)/sizeof(*even_reference) ==
+			even_number_size);
+	assert(!memcmp(even_reference, even_numbers, sizeof(even_reference)));
+
+	free(even_numbers);
+	return true;
+}
+
 int main(void)
 {
 #define test(x) do { \
@@ -196,6 +222,7 @@ int main(void)
 	test(test_fold_right());
 	test(test_each());
 	test(test_minmax());
+	test(test_filter());
 	test(test_map());
 
 	return 0;
