@@ -39,7 +39,7 @@ int first(int a, int b)
 
 bool test_fold_right(void)
 {
-	const int array[] = {4, 3, 2, 1};
+	int array[] = {4, 3, 2, 1};
 	int size = sizeof(array)/sizeof(*array);
 	int reference = 0;
 
@@ -117,7 +117,7 @@ int my_int_comparator(struct my_int a, struct my_int b)
 
 bool test_minmax(void)
 {
-	const struct my_int array[] = {
+	struct my_int array[] = {
 		{4}, {3}, {2}, {1}
 	};
 	int size = sizeof(array)/sizeof(*array);
@@ -145,7 +145,7 @@ struct timeval timevalify(double a)
 	struct timeval tv;
 
 	tv.tv_sec = (int)a;
-	tv.tv_usec = a - (int)a;
+	tv.tv_usec = (int)((a - (int)a) * 10);
 
 	return tv;
 }
@@ -166,7 +166,7 @@ bool test_map(void)
 	struct timeval tv_reference[] = {
 		{2, 0}, {1, 5}, {1, 0}, {0, 5}
 	};
-	struct timeval *timevaled = map(array, size, timevalify);
+	struct timeval *timevaled = map(float_reference, size, timevalify);
 
 	assert(memcmp(tv_reference, timevaled, sizeof(tv_reference)) == 0);
 
